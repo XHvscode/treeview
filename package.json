@@ -31,7 +31,34 @@
                     "name": "Tree Items"
                 }
             ]
-        }
+        },
+        "menus": {
+            "view/item/context": [
+                {
+                    "command": "tree.delete",
+                    "when": "view==treeItems && viewItem == fileItems"
+                },
+                {
+                    "command": "tree.delete",
+                    "when": "view==treeItems && viewItem == dirItems"
+                },
+                {
+                    "command": "tree.open",
+                    "group": "inline",
+                    "when": "view==treeItems && viewItem == fileItems"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "tree.delete",
+                "title": "Delete"
+            },
+            {
+                "command": "tree.open",
+                "title": "Open"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

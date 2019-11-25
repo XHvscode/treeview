@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { exec } from 'child_process';
 
 function lightRes(filename: string) {
     return path.join(__filename, "..", "..", "res", "light", filename);
@@ -23,9 +24,12 @@ export class MyTreeItem extends vscode.TreeItem {
 
     //对文件和文件夹进行分类 如果collapsibleState是None则代表它是文件
     iconPath = {
-        light: this.collapsibleState == vscode.TreeItemCollapsibleState.None ? lightRes("dependency.svg") : lightRes("folder.svg"),
-        dark: this.collapsibleState == vscode.TreeItemCollapsibleState.None ? darkRes("dependency.svg") : darkRes("folder.svg"),
+        light: this.collapsibleState === vscode.TreeItemCollapsibleState.None ? lightRes("dependency.svg") : lightRes("folder.svg"),
+        dark: this.collapsibleState === vscode.TreeItemCollapsibleState.None ? darkRes("dependency.svg") : darkRes("folder.svg"),
     };
+
+    contextValue = this.collapsibleState === vscode.TreeItemCollapsibleState.None ? "fileItems" : "dirItems";
+
 }
 
 export class MyTreeDataProvider implements vscode.TreeDataProvider<MyTreeItem> {
@@ -53,5 +57,25 @@ export class MyTreeDataProvider implements vscode.TreeDataProvider<MyTreeItem> {
             items.push(new MyTreeItem(file, (stat.isDirectory() ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None), element))
         });
         return Promise.resolve(items);
+    }
+
+    delete(element: MyTreeItem) {
+        let path = element.path;
+        let stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+            exec('rm -rf "' + path + '"');
+        }
+        else {
+            fs.unlinkSync(path);
+        }
+        this.refresh();
+    }
+
+    open(element: MyTreeItem) {
+        vscode.window.showTextDocument(vscode.Uri.file(element.path));
+    }
+
+    refresh(): void {
+        this._onDidChangeTreeData.fire();
     }
 }
