@@ -1,7 +1,7 @@
 {
-    "name": "dyplugin",
-    "displayName": "dyplugin",
-    "description": "duoyi plugin",
+    "name": "treeview",
+    "displayName": "treeview",
+    "description": "my treeview plugin",
     "publisher": "xiaohao",
     "version": "0.0.1",
     "engines": {

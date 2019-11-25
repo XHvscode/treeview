@@ -1,6 +1,6 @@
-# dyplugin README
+# treeview README
 
-This is the README for your extension "dyplugin". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "treeview". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
