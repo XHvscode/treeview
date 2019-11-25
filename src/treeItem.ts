@@ -41,6 +41,11 @@ export class MyTreeDataProvider implements vscode.TreeDataProvider<MyTreeItem> {
     readonly onDidChangeTreeData: vscode.Event<MyTreeItem | undefined> = this._onDidChangeTreeData.event;
 
     getTreeItem(element: MyTreeItem): vscode.TreeItem {
+        element.command = element.collapsibleState === vscode.TreeItemCollapsibleState.None ? {
+            command: "tree.open",
+            arguments: [element],
+            title: "Open"
+        } : void 0;
         return element;
     }
 
